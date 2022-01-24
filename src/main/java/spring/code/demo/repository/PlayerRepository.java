@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface PlayerRepository extends JpaRepository<Player,Long> {
 
-List<PlayerDTO> getByTeam(Team team);
+List<Player> getByTeam(Team team);
 }

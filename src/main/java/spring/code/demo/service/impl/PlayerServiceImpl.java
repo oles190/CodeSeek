@@ -12,6 +12,7 @@ import spring.code.demo.service.PlayerService;
 import spring.code.demo.service.TeamService;
 import spring.code.demo.validator.player.create.PlayerCreateValidator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -116,6 +117,8 @@ public class PlayerServiceImpl implements PlayerService {
 
     }
     public List<PlayerDTO> getByTeam(Team team){
-   return playerRepository.getByTeam(team);
+     List<Player> lists=playerRepository.getByTeam(team);
+
+     return  lists.stream().map(one->map(one)).collect(Collectors.toList());
     }
 }

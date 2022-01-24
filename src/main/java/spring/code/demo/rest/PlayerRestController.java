@@ -1,5 +1,6 @@
 package spring.code.demo.rest;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import spring.code.demo.service.PlayerService;
 import spring.code.demo.service.TeamService;
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 
 @RestController
@@ -35,6 +37,8 @@ public class PlayerRestController {
         return  players.stream().map(playerService::map).collect(Collectors.toList());
 
     }
+
+    @Tag(name = "All Team", description = " All players in this team")
     @GetMapping("/all/byTeam")
     public List<PlayerDTO> getByTeam(@RequestBody TeamDTO teamDTO){
 
@@ -42,7 +46,7 @@ public class PlayerRestController {
         return playerService.getByTeam(team);
     }
 
-
+//    @Hidden  приховати в swagger
     @PostMapping("/create")
     public PlayerDTO addPlayer(@RequestBody() PlayerDTO playerDTO) {
 
@@ -50,9 +54,9 @@ public class PlayerRestController {
 
     }
 
-
+    @Tag(name = "Transfer", description = "Transfer players")
     @PostMapping("/transfer")
-    public void transfer(@RequestParam() Long teamId, @RequestParam() Long playerId) {
+    public void transfer(@RequestParam()  Long teamId, @RequestParam() Long playerId) {
         Team team = teamService.findById(teamId);
         playerService.transfer(playerId, team);
         log.info("Success!");
@@ -70,7 +74,5 @@ public class PlayerRestController {
     public void delete(@PathVariable() Long id)   {
         playerService.delete(id);
     }
-
-
 
 }
