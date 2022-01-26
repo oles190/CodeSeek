@@ -10,7 +10,7 @@ public class TeamNameValidator implements TeamCreateValidator {
 
     @Override
     public void validate(Team team) {
-        if(team.getName()==null || team.getName().isEmpty()){
+        if(team.getName() == null || team.getName().isEmpty()){
             throw new TeamNameException("Name can't be null or empty!");
         }
     }

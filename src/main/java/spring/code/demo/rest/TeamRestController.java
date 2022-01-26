@@ -22,7 +22,7 @@ public class TeamRestController {
     }
     @GetMapping("/all")
     public List<TeamDTO> findAll(){
-        List<Team>  lists= teamService.getAll();
+        List<Team>  lists = teamService.getAll();
         return lists.stream().map(teamService::map).collect(Collectors.toList());
     }
 

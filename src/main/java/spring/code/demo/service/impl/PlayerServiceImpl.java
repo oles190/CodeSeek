@@ -1,6 +1,5 @@
 package spring.code.demo.service.impl;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spring.code.demo.dto.PlayerDTO;
@@ -16,14 +15,13 @@ import java.util.stream.Collectors;
 
 
 @Service
-
 public class PlayerServiceImpl implements PlayerService {
 
     private final TeamService teamService;
     private final PlayerRepository playerRepository;
     private  final List<PlayerCreateValidator> playerCreateValidators;
 
-@Autowired
+    @Autowired
     public PlayerServiceImpl(TeamService teamService, PlayerRepository playerRepository,
                              List<PlayerCreateValidator> playerCreateValidators) {
         this.teamService = teamService;
@@ -34,7 +32,7 @@ public class PlayerServiceImpl implements PlayerService {
 
 
     @Override
-    public Player create(PlayerDTO playerDTO) {
+    public Player create (PlayerDTO playerDTO) {
         Player player = map(playerDTO);
         for(PlayerCreateValidator validator:playerCreateValidators){
             validator.validate(player);
@@ -49,7 +47,7 @@ public class PlayerServiceImpl implements PlayerService {
         if (playerDTO.getId() == null) {
             throw new IllegalArgumentException("Id cant be null");
         }
-        Player player =map(playerDTO);
+        Player player = map(playerDTO);
       return  playerRepository.save(player);
 
     }
@@ -61,9 +59,9 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public void delete(long id) {
-    Player player= findById(id);
+    Player player = findById(id);
 
-    if(player==null){
+    if(player == null){
     throw  new PlayerNotFoundException("Player with id "+ id+ " not found!");
     }
         playerRepository.delete(player);
@@ -78,22 +76,32 @@ public class PlayerServiceImpl implements PlayerService {
 
 
     public void transfer(Long id, Team newTeam){
-    Player player =findById(id);
-    if(player.getTeam().equals(newTeam)){
-        throw new IllegalArgumentException("This player has already played in this team!");
+    Player player = findById(id);
+
+    if( player.getTeam().equals(newTeam) ){
+            throw new IllegalArgumentException("This player has already played in this team!");
     }
-    int priceTransfer= player.getExperience()*100000/player.getAge();
-    int commission= priceTransfer/100*player.getTeam().getCommission();
-    int allPrice= priceTransfer+commission;
-    player.getTeam().setBalance(player.getTeam().getBalance()+priceTransfer);
-    newTeam.setBalance(newTeam.getBalance()-allPrice);
+     int allPrice = calcSumTransfer(map(player));
+
+    if(newTeam.getBalance() < allPrice){
+            throw  new IllegalArgumentException("Balance not enough");
+        }
+
+    newTeam.setBalance(newTeam.getBalance() - allPrice);
     player.setTeam(newTeam);
-    teamService.create(teamService.map(newTeam));
-    create(map(player));
-        System.out.println("al sum "+ allPrice);
+    teamService.create( teamService.map(newTeam) );
+
+    create( map(player) );
+
+    }
 
 
-
+    public int calcSumTransfer(PlayerDTO playerDTO){
+        int priceTransfer = playerDTO.getExperience() * 100000 / playerDTO.getAge();
+        int commission = priceTransfer / 100 * playerDTO.getTeamDTO().getCommission();
+        int allPrice = priceTransfer + commission;
+        playerDTO.getTeamDTO().setBalance(playerDTO.getTeamDTO().getBalance() + priceTransfer);
+        return allPrice;
 
     }
 
@@ -117,8 +125,8 @@ public class PlayerServiceImpl implements PlayerService {
 
     }
     public List<PlayerDTO> getByTeam(Team team){
-     List<Player> lists=playerRepository.getByTeam(team);
+     List<Player> lists = playerRepository.getByTeam(team);
 
-     return  lists.stream().map(one->map(one)).collect(Collectors.toList());
+     return  lists.stream().map(this::map).collect( Collectors.toList() );
     }
 }

@@ -32,6 +32,6 @@ public class PlayerDTO {
         this.age = player.getAge();
         this.experience = player.getExperience();
         this.teamDTO = new TeamDTO(player.getTeam());
-        this.startCareer=  player.getStartCareer();
+        this.startCareer =  player.getStartCareer();
     }
 }

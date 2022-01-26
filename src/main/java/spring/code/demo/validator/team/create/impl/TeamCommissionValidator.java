@@ -10,7 +10,7 @@ public class TeamCommissionValidator implements TeamCreateValidator {
     @Override
     public void validate(Team team) {
 
-        if(team.getCommission()<0){
+        if(team.getCommission() < 0){
 
             throw  new TeamCommissionException("Commission can't be less than 0");
         }

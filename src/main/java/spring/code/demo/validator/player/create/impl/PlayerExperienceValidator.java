@@ -12,7 +12,7 @@ public class PlayerExperienceValidator implements PlayerCreateValidator {
     @Override
     public void validate(Player player) {
 
-        if(player.getExperience()<0){
+        if(player.getExperience() < 0){
             throw  new PlayerExperienceException("Experience can't be less than 0!");
         }
     }

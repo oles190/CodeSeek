@@ -33,16 +33,16 @@ public class PlayerRestController {
     @GetMapping("/all")
     public List<PlayerDTO> getAll() {
 
-        List<Player> players= playerService.getAll();
-        return  players.stream().map(playerService::map).collect(Collectors.toList());
+        List<Player> players = playerService.getAll();
+        return  players.stream().map(playerService::map).collect( Collectors.toList() );
 
     }
 
-    @Tag(name = "All Team", description = " All players in this team")
+    @Tag(name = "All Team", description = "All players in this team")
     @GetMapping("/all/byTeam")
     public List<PlayerDTO> getByTeam(@RequestBody TeamDTO teamDTO){
 
-        Team team=  teamService.map(teamDTO);
+        Team team =  teamService.map(teamDTO);
         return playerService.getByTeam(team);
     }
 

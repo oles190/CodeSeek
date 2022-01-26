@@ -40,14 +40,14 @@ public class TeamServiceImpl implements TeamService {
         if (teamDTO.getId() == null) {
             throw new IllegalArgumentException("Id can't be null!");
         }
-        Team team =map(teamDTO);
+        Team team = map(teamDTO);
         return  teamRepository.save(team);
     }
 
 
     @Override
     public Team findById(long id) {
-        Optional<Team> team= teamRepository.findById(id);
+        Optional<Team> team = teamRepository.findById(id);
         if(team.isPresent()){
             return  team.get();
         }
@@ -57,8 +57,8 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public void delete(Long id) {
-        Team team =findById(id);
-        if(team==null){
+        Team team = findById(id);
+        if(team == null){
             throw new TeamNotFoundException("Team not found");
 
         }
@@ -74,7 +74,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team map(TeamDTO teamDTO) {
-    Team team= new Team();
+    Team team = new Team();
     team.setBalance(teamDTO.getBalance());
     team.setCity(teamDTO.getCity());
     team.setCommission(teamDTO.getCommission());
@@ -82,7 +82,7 @@ public class TeamServiceImpl implements TeamService {
     team.setId(teamDTO.getId());
     team.setName(teamDTO.getName());
 
-          return  team;
+          return team;
     }
 
     @Override
