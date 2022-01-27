@@ -32,20 +32,20 @@ public class TeamRestController {
     }
 
 
-    @PostMapping("/create")
+    @PostMapping()
     public TeamDTO create(@RequestBody() TeamDTO teamDTO){
 
         return teamService.map(teamService.create(teamDTO));
     }
 
 
-    @PostMapping("/update")
+    @PutMapping()
     public TeamDTO update(@RequestBody() TeamDTO teamDTO){
     return  teamService.map(teamService.update(teamDTO));
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable() Long id) throws TeamNotFoundException {
 
        teamService.delete(id);

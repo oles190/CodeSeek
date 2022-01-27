@@ -1,5 +1,6 @@
 package spring.code.demo.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spring.code.demo.dto.PlayerDTO;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 
 
 @Service
+@Slf4j
 public class PlayerServiceImpl implements PlayerService {
 
     private final TeamService teamService;
@@ -92,6 +94,8 @@ public class PlayerServiceImpl implements PlayerService {
     teamService.create( teamService.map(newTeam) );
 
     create( map(player) );
+        log.info("Success!");
+
 
     }
 

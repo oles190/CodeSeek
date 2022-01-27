@@ -9,4 +9,5 @@ import java.util.List;
 public interface PlayerRepository extends JpaRepository<Player,Long> {
 
 List<Player> getByTeam(Team team);
+
 }

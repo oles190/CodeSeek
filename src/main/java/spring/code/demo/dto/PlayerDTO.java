@@ -3,7 +3,6 @@ package spring.code.demo.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import spring.code.demo.model.Player;
-
 import java.time.LocalDate;
 
 @Data
@@ -31,7 +30,7 @@ public class PlayerDTO {
         this.lastName = player.getLastName();
         this.age = player.getAge();
         this.experience = player.getExperience();
-        this.teamDTO = new TeamDTO(player.getTeam());
+        this.teamDTO = new TeamDTO( player.getTeam() );
         this.startCareer =  player.getStartCareer();
     }
 }
