@@ -31,7 +31,7 @@ public class PlayerRestController {
     public List<PlayerDTO> getAll() {
 
         List<Player> players = playerService.getAll();
-        return players
+          return players
                 .stream()
                 .map(playerService::map)
                 .collect( Collectors.toList() );
@@ -47,7 +47,7 @@ public class PlayerRestController {
     }
 
     @GetMapping("/{id}")
-    public PlayerDTO findById (@PathVariable  long id){
+    public PlayerDTO findById(@PathVariable  long id){
 
         return playerService.map( playerService.findById(id) );
     }

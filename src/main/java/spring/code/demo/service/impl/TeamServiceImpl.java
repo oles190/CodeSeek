@@ -40,6 +40,9 @@ public class TeamServiceImpl implements TeamService {
         if (teamDTO.getId() == null) {
             throw new IllegalArgumentException("Id can't be null!");
         }
+            for(TeamCreateValidator createValidator: teamCreateValidators){
+                createValidator.validate(map(teamDTO));
+            }
         Team team = map(teamDTO);
         return  teamRepository.save(team);
     }
@@ -82,7 +85,7 @@ public class TeamServiceImpl implements TeamService {
     team.setId(teamDTO.getId());
     team.setName(teamDTO.getName());
 
-          return team;
+       return team;
     }
 
     @Override

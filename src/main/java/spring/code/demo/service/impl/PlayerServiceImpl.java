@@ -12,6 +12,7 @@ import spring.code.demo.service.PlayerService;
 import spring.code.demo.service.TeamService;
 import spring.code.demo.validator.player.create.PlayerCreateValidator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -39,6 +40,7 @@ public class PlayerServiceImpl implements PlayerService {
         for(PlayerCreateValidator validator:playerCreateValidators){
             validator.validate(player);
         }
+
         return  playerRepository.save(player);
 
     }
@@ -49,6 +51,10 @@ public class PlayerServiceImpl implements PlayerService {
         if (playerDTO.getId() == null) {
             throw new IllegalArgumentException("Id cant be null");
         }
+
+        for(PlayerCreateValidator validator:playerCreateValidators){
+            validator.validate( map(playerDTO) );
+        }
         Player player = map(playerDTO);
       return  playerRepository.save(player);
 
@@ -56,7 +62,15 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public Player findById(long id) {
-        return playerRepository.findById(id).orElse(null);
+
+        Optional<Player> player = playerRepository.findById(id);
+        if(player.isPresent()){
+            return player.get();
+        }else {
+
+         throw  new PlayerNotFoundException("Player with id " + id + " not found!");
+        }
+
     }
 
     @Override
@@ -89,6 +103,7 @@ public class PlayerServiceImpl implements PlayerService {
             throw  new IllegalArgumentException("Balance not enough");
         }
 
+    player.getTeam().setBalance(player.getTeam().getBalance() + allPrice);
     newTeam.setBalance(newTeam.getBalance() - allPrice);
     player.setTeam(newTeam);
     teamService.create( teamService.map(newTeam) );
@@ -103,10 +118,7 @@ public class PlayerServiceImpl implements PlayerService {
     public int calcSumTransfer(PlayerDTO playerDTO){
         int priceTransfer = playerDTO.getExperience() * 100000 / playerDTO.getAge();
         int commission = priceTransfer / 100 * playerDTO.getTeamDTO().getCommission();
-        int allPrice = priceTransfer + commission;
-        playerDTO.getTeamDTO().setBalance(playerDTO.getTeamDTO().getBalance() + priceTransfer);
-        return allPrice;
-
+        return priceTransfer + commission;
     }
 
     @Override
