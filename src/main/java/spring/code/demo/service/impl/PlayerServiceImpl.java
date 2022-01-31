@@ -11,6 +11,7 @@ import spring.code.demo.repository.PlayerRepository;
 import spring.code.demo.service.PlayerService;
 import spring.code.demo.service.TeamService;
 import spring.code.demo.validator.player.create.PlayerCreateValidator;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     private final TeamService teamService;
     private final PlayerRepository playerRepository;
-    private  final List<PlayerCreateValidator> playerCreateValidators;
+    private final List<PlayerCreateValidator> playerCreateValidators;
 
     @Autowired
     public PlayerServiceImpl(TeamService teamService, PlayerRepository playerRepository,
@@ -33,15 +34,14 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
 
-
     @Override
-    public Player create (PlayerDTO playerDTO) {
+    public Player create(PlayerDTO playerDTO) {
         Player player = map(playerDTO);
-        for(PlayerCreateValidator validator:playerCreateValidators){
+        for (PlayerCreateValidator validator : playerCreateValidators) {
             validator.validate(player);
         }
 
-        return  playerRepository.save(player);
+        return playerRepository.save(player);
 
     }
 
@@ -52,11 +52,7 @@ public class PlayerServiceImpl implements PlayerService {
             throw new IllegalArgumentException("Id cant be null");
         }
 
-        for(PlayerCreateValidator validator:playerCreateValidators){
-            validator.validate( map(playerDTO) );
-        }
-        Player player = map(playerDTO);
-      return  playerRepository.save(player);
+        return create(playerDTO);
 
     }
 
@@ -64,59 +60,62 @@ public class PlayerServiceImpl implements PlayerService {
     public Player findById(long id) {
 
         Optional<Player> player = playerRepository.findById(id);
-        if(player.isPresent()){
+        if (player.isPresent()) {
             return player.get();
-        }else {
+        } else {
 
-         throw  new PlayerNotFoundException("Player with id " + id + " not found!");
+            throw new PlayerNotFoundException("Player with id " + id + " not found!");
         }
 
     }
 
     @Override
     public void delete(long id) {
-    Player player = findById(id);
+        Player player = findById(id);
 
-    if(player == null){
-    throw  new PlayerNotFoundException("Player with id "+ id+ " not found!");
-    }
+        if (player == null) {
+            throw new PlayerNotFoundException("Player with id " + id + " not found!");
+        }
         playerRepository.delete(player);
 
 
     }
 
     @Override
-    public List<Player> getAll() {
-        return playerRepository.findAll();
+    public List<PlayerDTO> getAll() {
+        List<Player> players = playerRepository.findAll();
+
+        return players.stream().map(this::map).collect(Collectors.toList());
+
     }
 
 
-    public void transfer(Long playerId, Long teamId){
-    Player player = findById(playerId);
-    Team newTeam =teamService.findById(teamId);
+    public void transfer(Long playerId, Long teamId) {
+        Player player = findById(playerId);
+        Team newTeam = teamService.findById(teamId);
 
-    if( player.getTeam().equals(newTeam) ){
+        if (player.getTeam().equals(newTeam)) {
             throw new IllegalArgumentException("This player has already played in this team!");
-    }
-     int allPrice = calcSumTransfer(map(player));
+        }
+        int allPrice = calcSumTransfer(map(player));
 
-    if(newTeam.getBalance() < allPrice){
-            throw  new IllegalArgumentException("Balance not enough");
+        if (newTeam.getBalance() < allPrice) {
+            throw new IllegalArgumentException("Balance not enough");
         }
 
-    player.getTeam().setBalance(player.getTeam().getBalance() + allPrice);
-    newTeam.setBalance(newTeam.getBalance() - allPrice);
-    player.setTeam(newTeam);
-    teamService.create( teamService.map(newTeam) );
+        player.getTeam().setBalance(player.getTeam().getBalance() + allPrice);
+        newTeam.setBalance(newTeam.getBalance() - allPrice);
+        player.setTeam(newTeam);
+        teamService.update(teamService.map(newTeam));
 
-    create( map(player) );
+        update(map(player));
         log.info("Success!");
 
 
     }
 
 
-    public int calcSumTransfer(PlayerDTO playerDTO){
+    public int calcSumTransfer(PlayerDTO playerDTO) {
         int priceTransfer = playerDTO.getExperience() * 100000 / playerDTO.getAge();
         int commission = priceTransfer / 100 * playerDTO.getTeamDTO().getCommission();
         return priceTransfer + commission;
@@ -132,19 +131,20 @@ public class PlayerServiceImpl implements PlayerService {
         player.setLastName(playerDTO.getLastName());
         player.setStartCareer(playerDTO.getStartCareer());
         player.setTeam((teamService.map(playerDTO.getTeamDTO())));
-        return  player;
+        return player;
     }
 
     @Override
     public PlayerDTO map(Player player) {
-       return new PlayerDTO(player);
+        return new PlayerDTO(player);
 
 
     }
-    public List<PlayerDTO> getByTeam(Team team){
-     List<Player> lists = playerRepository.getByTeam(team);
 
-     return  lists.stream().map(this::map).collect( Collectors.toList() );
+    public List<PlayerDTO> getByTeam(Team team) {
+        List<Player> lists = playerRepository.getByTeam(team);
+
+        return lists.stream().map(this::map).collect(Collectors.toList());
     }
 }
 

@@ -1,6 +1,6 @@
 package spring.code.demo.exception.team;
 
-public class TeamNameException extends RuntimeException{
+public class TeamNameException extends RuntimeException {
 
     public TeamNameException() {
     }

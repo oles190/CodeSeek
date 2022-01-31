@@ -19,7 +19,7 @@ public class TeamDTO {
 
     private String city;
 
-    private  String country;
+    private String country;
 
 
     private int commission;

@@ -17,7 +17,7 @@ public interface PlayerService {
 
     void delete(long id);
 
-    List<Player> getAll();
+    List<PlayerDTO> getAll();
 
     void transfer(Long id, Long teamId);
 

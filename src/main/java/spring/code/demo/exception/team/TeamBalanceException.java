@@ -1,6 +1,6 @@
 package spring.code.demo.exception.team;
 
-public class TeamBalanceException extends RuntimeException{
+public class TeamBalanceException extends RuntimeException {
     public TeamBalanceException() {
     }
 

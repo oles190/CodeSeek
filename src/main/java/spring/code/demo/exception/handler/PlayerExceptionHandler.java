@@ -8,7 +8,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import spring.code.demo.exception.player.*;
 
 @ControllerAdvice
-public class PlayerExceptionHandler extends ResponseEntityExceptionHandler  {
+public class PlayerExceptionHandler extends ResponseEntityExceptionHandler {
 
 
 // TODO: handler exception

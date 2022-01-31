@@ -1,6 +1,6 @@
 package spring.code.demo.exception.player;
 
-public class PlayerNameException extends  RuntimeException{
+public class PlayerNameException extends RuntimeException {
     public PlayerNameException() {
     }
 

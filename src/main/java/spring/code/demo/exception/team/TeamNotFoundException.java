@@ -1,6 +1,6 @@
 package spring.code.demo.exception.team;
 
-public class TeamNotFoundException extends RuntimeException{
+public class TeamNotFoundException extends RuntimeException {
 
     public TeamNotFoundException() {
     }

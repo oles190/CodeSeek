@@ -6,6 +6,7 @@ import spring.code.demo.dto.TeamDTO;
 import spring.code.demo.exception.team.TeamNotFoundException;
 import spring.code.demo.model.Team;
 import spring.code.demo.service.TeamService;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,42 +21,42 @@ public class TeamRestController {
         this.teamService = teamService;
 
     }
+
     @GetMapping("/all")
-    public List<TeamDTO> findAll(){
-        List<Team>  lists = teamService.getAll();
+    public List<TeamDTO> findAll() {
+        List<Team> lists = teamService.getAll();
         return lists.stream().map(teamService::map).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public TeamDTO findById(@PathVariable() Long id){
+    public TeamDTO findById(@PathVariable() Long id) {
         return teamService.map(teamService.findById(id));
     }
 
 
     @PostMapping()
-    public TeamDTO create(@RequestBody() TeamDTO teamDTO){
+    public TeamDTO create(@RequestBody() TeamDTO teamDTO) {
 
         return teamService.map(teamService.create(teamDTO));
     }
 
 
     @PutMapping()
-    public TeamDTO update(@RequestBody() TeamDTO teamDTO){
-    return  teamService.map(teamService.update(teamDTO));
+    public TeamDTO update(@RequestBody() TeamDTO teamDTO) {
+        return teamService.map(teamService.update(teamDTO));
     }
 
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable() Long id) throws TeamNotFoundException {
 
-       teamService.delete(id);
-
-
-
-     }
+        teamService.delete(id);
 
 
     }
+
+
+}
 
 
 

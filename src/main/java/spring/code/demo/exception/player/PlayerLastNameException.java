@@ -1,6 +1,6 @@
 package spring.code.demo.exception.player;
 
-public class PlayerLastNameException extends  RuntimeException{
+public class PlayerLastNameException extends RuntimeException {
 
     public PlayerLastNameException() {
     }

@@ -1,7 +1,7 @@
 INSERT  INTO  team (balance, city, commission, name, country)
  VALUES (1000000, 'Barca', 8, 'Barcelona', 'Spanish'),
-        (900000, 'Milan',6, 'Milan', 'Italy'),
-        (500000, 'Kiev',8, 'Dynamo', 'Ukraine'),
+        (1000000, 'Milan',6, 'Milan', 'Italy'),
+        (1000000, 'Kiev',8, 'Dynamo', 'Ukraine'),
         (99300000, 'Manchester', 8,'Manchester city', 'English'),
         (6000500, 'Dnipro', 5, 'Dnipro-1', 'Ukraine');
 

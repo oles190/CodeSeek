@@ -8,6 +8,7 @@ import spring.code.demo.model.Team;
 import spring.code.demo.repository.TeamRepository;
 import spring.code.demo.service.TeamService;
 import spring.code.demo.validator.team.create.TeamCreateValidator;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -26,42 +27,38 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team create(TeamDTO teamDTO) {
-      Team team =map(teamDTO);
-      for(TeamCreateValidator createValidator: teamCreateValidators){
-          createValidator.validate(team);
-      }
-     return teamRepository.save(team);
+        Team team = map(teamDTO);
+        for (TeamCreateValidator createValidator : teamCreateValidators) {
+            createValidator.validate(team);
+        }
+        return teamRepository.save(team);
 
     }
 
-        @Override
-        public Team update(TeamDTO teamDTO) {
+    @Override
+    public Team update(TeamDTO teamDTO) {
 
         if (teamDTO.getId() == null) {
             throw new IllegalArgumentException("Id can't be null!");
         }
-            for(TeamCreateValidator createValidator: teamCreateValidators){
-                createValidator.validate(map(teamDTO));
-            }
-        Team team = map(teamDTO);
-        return  teamRepository.save(team);
+        return create(teamDTO);
     }
 
 
     @Override
     public Team findById(long id) {
         Optional<Team> team = teamRepository.findById(id);
-        if(team.isPresent()){
-            return  team.get();
+        if (team.isPresent()) {
+            return team.get();
         }
-        throw  new TeamNotFoundException("Team with id "+id +" not found!");
+        throw new TeamNotFoundException("Team with id " + id + " not found!");
 
     }
 
     @Override
     public void delete(Long id) {
         Team team = findById(id);
-        if(team == null){
+        if (team == null) {
             throw new TeamNotFoundException("Team not found");
 
         }
@@ -77,20 +74,20 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team map(TeamDTO teamDTO) {
-    Team team = new Team();
-    team.setBalance(teamDTO.getBalance());
-    team.setCity(teamDTO.getCity());
-    team.setCommission(teamDTO.getCommission());
-    team.setCountry(teamDTO.getCountry());
-    team.setId(teamDTO.getId());
-    team.setName(teamDTO.getName());
+        Team team = new Team();
+        team.setBalance(teamDTO.getBalance());
+        team.setCity(teamDTO.getCity());
+        team.setCommission(teamDTO.getCommission());
+        team.setCountry(teamDTO.getCountry());
+        team.setId(teamDTO.getId());
+        team.setName(teamDTO.getName());
 
-       return team;
+        return team;
     }
 
     @Override
     public TeamDTO map(Team team) {
-        return  new TeamDTO(team);
+        return new TeamDTO(team);
     }
 
 }
