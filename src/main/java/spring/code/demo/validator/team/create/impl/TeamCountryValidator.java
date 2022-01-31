@@ -9,7 +9,7 @@ import spring.code.demo.validator.team.create.TeamCreateValidator;
 public class TeamCountryValidator implements TeamCreateValidator {
     @Override
     public void validate(Team team) {
-        if(team.getCountry() == null || team.getCountry().isEmpty()){
+        if (team.getCountry() == null || team.getCountry().isEmpty()) {
             throw new TeamCountryException("Country can't be null or empty!");
         }
 

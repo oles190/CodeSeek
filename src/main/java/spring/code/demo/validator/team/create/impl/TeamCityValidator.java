@@ -11,9 +11,9 @@ public class TeamCityValidator implements TeamCreateValidator {
     @Override
     public void validate(Team team) {
 
-        if(team.getCity() == null || team.getCity().isEmpty()){
+        if (team.getCity() == null || team.getCity().isEmpty()) {
 
-            throw  new TeamCityException("City can't be null or empty");
+            throw new TeamCityException("City can't be null or empty");
         }
 
     }

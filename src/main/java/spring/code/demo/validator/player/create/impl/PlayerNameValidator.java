@@ -12,8 +12,8 @@ public class PlayerNameValidator implements PlayerCreateValidator {
 
     @Override
     public void validate(Player player) {
-        if(player.getName() == null || player.getName().isEmpty()){
-         throw new PlayerNameException("Name can't be null");
+        if (player.getName() == null || player.getName().isEmpty()) {
+            throw new PlayerNameException("Name can't be null");
         }
     }
 }

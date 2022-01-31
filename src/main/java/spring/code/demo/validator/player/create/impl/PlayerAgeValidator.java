@@ -10,8 +10,8 @@ public class PlayerAgeValidator implements PlayerCreateValidator {
 
     @Override
     public void validate(Player player) {
-        if(player.getAge() <= 0){
-            throw  new PlayerAgeException("Age can't be less than 0!");
+        if (player.getAge() <= 0) {
+            throw new PlayerAgeException("Age can't be less than 0!");
         }
     }
 }

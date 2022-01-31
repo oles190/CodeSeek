@@ -11,8 +11,8 @@ public class PlayerLastNameValidator implements PlayerCreateValidator {
 
     @Override
     public void validate(Player player) {
-        if(player.getLastName() == null || player.getLastName().isEmpty()){
-            throw  new PlayerLastNameException("Surname can't be null or empty!");
+        if (player.getLastName() == null || player.getLastName().isEmpty()) {
+            throw new PlayerLastNameException("Surname can't be null or empty!");
         }
     }
 }
