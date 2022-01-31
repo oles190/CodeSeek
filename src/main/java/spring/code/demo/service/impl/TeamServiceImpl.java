@@ -11,6 +11,7 @@ import spring.code.demo.validator.team.create.TeamCreateValidator;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -68,8 +69,10 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<Team> getAll() {
-        return teamRepository.findAll();
+    public List<TeamDTO> getAll() {
+
+        List<Team> lists = teamRepository.findAll();
+        return lists.stream().map(this::map).collect(Collectors.toList());
     }
 
     @Override

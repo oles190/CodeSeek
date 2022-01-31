@@ -16,7 +16,7 @@ public interface TeamService {
 
     void delete(Long id);
 
-    List<Team> getAll();
+    List<TeamDTO> getAll();
 
     Team map(TeamDTO teamDTO);
 

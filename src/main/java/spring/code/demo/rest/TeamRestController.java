@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import spring.code.demo.dto.TeamDTO;
 import spring.code.demo.exception.team.TeamNotFoundException;
-import spring.code.demo.model.Team;
 import spring.code.demo.service.TeamService;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/team")
@@ -24,8 +22,7 @@ public class TeamRestController {
 
     @GetMapping("/all")
     public List<TeamDTO> findAll() {
-        List<Team> lists = teamService.getAll();
-        return lists.stream().map(teamService::map).collect(Collectors.toList());
+        return teamService.getAll();
     }
 
     @GetMapping("/{id}")
