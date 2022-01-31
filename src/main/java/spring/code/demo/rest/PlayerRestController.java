@@ -62,8 +62,7 @@ public class PlayerRestController {
 
     @PostMapping("/transfer")
     public void transfer(@RequestParam()  Long teamId, @RequestParam() Long playerId) {
-        Team team = teamService.findById(teamId);
-        playerService.transfer(playerId, team);
+        playerService.transfer(playerId, teamId);
 
     }
 

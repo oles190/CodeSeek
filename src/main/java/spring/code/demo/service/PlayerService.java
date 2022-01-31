@@ -19,7 +19,7 @@ public interface PlayerService {
 
     List<Player> getAll();
 
-    void transfer(Long id, Team newTeam);
+    void transfer(Long id, Long teamId);
 
     Player map(PlayerDTO playerDTO);
 
