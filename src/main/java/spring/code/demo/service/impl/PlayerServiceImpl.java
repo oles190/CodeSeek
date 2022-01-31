@@ -91,8 +91,9 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
 
-    public void transfer(Long id, Team newTeam){
-    Player player = findById(id);
+    public void transfer(Long playerId, Long teamId){
+    Player player = findById(playerId);
+    Team newTeam =teamService.findById(teamId);
 
     if( player.getTeam().equals(newTeam) ){
             throw new IllegalArgumentException("This player has already played in this team!");
