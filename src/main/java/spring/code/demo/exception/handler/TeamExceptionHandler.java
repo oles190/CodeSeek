@@ -11,8 +11,6 @@ import spring.code.demo.exception.team.*;
 @ControllerAdvice
 public class TeamExceptionHandler extends ResponseEntityExceptionHandler {
 
-
-
     @ExceptionHandler(TeamNotFoundException.class)
     public ResponseEntity<ErrorMessage> handleException(TeamNotFoundException e) {
         ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
@@ -24,6 +22,7 @@ public class TeamExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(TeamCityException.class)
     public ResponseEntity<ErrorMessage> handleException(TeamCityException e) {
         ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
@@ -47,10 +46,6 @@ public class TeamExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorMessage errorMessage = new ErrorMessage(e.getMessage());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
-
-
-
-
 
 
 }

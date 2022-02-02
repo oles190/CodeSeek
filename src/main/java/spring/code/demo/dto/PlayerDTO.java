@@ -10,6 +10,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class PlayerDTO {
 
+
+
     private Long id;
 
     private String name;
@@ -34,4 +36,6 @@ public class PlayerDTO {
         this.teamDTO = new TeamDTO(player.getTeam());
         this.startCareer = player.getStartCareer();
     }
+
+
 }

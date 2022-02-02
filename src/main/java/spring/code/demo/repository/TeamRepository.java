@@ -5,5 +5,7 @@ import spring.code.demo.model.Team;
 
 public interface TeamRepository extends JpaRepository<Team, Long> {
 
+    void deleteById(Long id);
+
 }
 

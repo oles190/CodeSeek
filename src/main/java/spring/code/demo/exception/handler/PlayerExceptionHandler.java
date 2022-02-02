@@ -10,10 +10,6 @@ import spring.code.demo.exception.player.*;
 @ControllerAdvice
 public class PlayerExceptionHandler extends ResponseEntityExceptionHandler {
 
-
-// TODO: handler exception
-
-
     @ExceptionHandler(PlayerAgeException.class)
     public ResponseEntity<ErrorMessage> handleException(PlayerAgeException e) {
         ErrorMessage errorMessage = new ErrorMessage(e.getMessage());

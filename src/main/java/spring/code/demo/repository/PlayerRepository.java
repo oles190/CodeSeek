@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
 
-    List<Player> getByTeam(Team team);
+    List<Player> findByTeam(Team team);
+    void deleteById(Long id);
 
 }

@@ -8,15 +8,15 @@ import java.util.List;
 public interface TeamService {
 
 
-    Team create(TeamDTO teamDTO);
+    TeamDTO create(TeamDTO teamDTO);
 
-    Team update(TeamDTO teamDTO);
+    TeamDTO update(TeamDTO teamDTO);
 
-    Team findById(long id);
+    TeamDTO findById(long id);
+
+    List<TeamDTO> findAll();
 
     void delete(Long id);
-
-    List<TeamDTO> getAll();
 
     Team map(TeamDTO teamDTO);
 

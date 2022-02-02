@@ -1,23 +1,23 @@
 package spring.code.demo.service;
 
 import spring.code.demo.dto.PlayerDTO;
+import spring.code.demo.dto.TeamDTO;
 import spring.code.demo.model.Player;
-import spring.code.demo.model.Team;
 
 import java.util.List;
 
 public interface PlayerService {
 
 
-    Player create(PlayerDTO playerDTO);
+    PlayerDTO create(PlayerDTO playerDTO);
 
-    Player update(PlayerDTO playerDTO);
+    PlayerDTO update(PlayerDTO playerDTO);
 
-    Player findById(long id);
+    PlayerDTO findById(long id);
+
+    List<PlayerDTO> findAll();
 
     void delete(long id);
-
-    List<PlayerDTO> getAll();
 
     void transfer(Long id, Long teamId);
 
@@ -25,8 +25,7 @@ public interface PlayerService {
 
     PlayerDTO map(Player player);
 
-    List<PlayerDTO> getByTeam(Team team);
+    List<PlayerDTO> findByTeam(TeamDTO teamDTO);
 
 
 }
-

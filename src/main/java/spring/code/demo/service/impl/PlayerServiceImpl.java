@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spring.code.demo.dto.PlayerDTO;
+import spring.code.demo.dto.TeamDTO;
 import spring.code.demo.exception.player.PlayerNotFoundException;
 import spring.code.demo.model.Player;
 import spring.code.demo.model.Team;
@@ -35,83 +36,63 @@ public class PlayerServiceImpl implements PlayerService {
 
 
     @Override
-    public Player create(PlayerDTO playerDTO) {
+    public PlayerDTO create(PlayerDTO playerDTO) {
         Player player = map(playerDTO);
         for (PlayerCreateValidator validator : playerCreateValidators) {
             validator.validate(player);
         }
-
-        return playerRepository.save(player);
-
+        playerRepository.save(player);
+        return map(player);
     }
 
     @Override
-    public Player update(PlayerDTO playerDTO) {
-
-        if (playerDTO.getId() == null) {
-            throw new IllegalArgumentException("Id cant be null");
-        }
-
+    public PlayerDTO update(PlayerDTO playerDTO) {
+       findById(playerDTO.getId());
         return create(playerDTO);
-
     }
 
     @Override
-    public Player findById(long id) {
-
+    public PlayerDTO findById(long id) {
         Optional<Player> player = playerRepository.findById(id);
         if (player.isPresent()) {
-            return player.get();
-        } else {
-
-            throw new PlayerNotFoundException("Player with id " + id + " not found!");
+            return map(player.get());
         }
-
+        throw new PlayerNotFoundException("Player with id " + id + " not found!");
     }
 
     @Override
     public void delete(long id) {
-        Player player = findById(id);
-
+        PlayerDTO player = findById(id);
         if (player == null) {
             throw new PlayerNotFoundException("Player with id " + id + " not found!");
         }
-        playerRepository.delete(player);
-
-
+        playerRepository.deleteById(id);
     }
 
     @Override
-    public List<PlayerDTO> getAll() {
+    public List<PlayerDTO> findAll() {
         List<Player> players = playerRepository.findAll();
-
         return players.stream().map(this::map).collect(Collectors.toList());
-
     }
 
-
     public void transfer(Long playerId, Long teamId) {
-        Player player = findById(playerId);
-        Team newTeam = teamService.findById(teamId);
-
+        Player player = map(findById(playerId));
+        Team newTeam = teamService.map(teamService.findById(teamId));
         if (player.getTeam().equals(newTeam)) {
             throw new IllegalArgumentException("This player has already played in this team!");
         }
         int allPrice = calcSumTransfer(map(player));
-
         if (newTeam.getBalance() < allPrice) {
             throw new IllegalArgumentException("Balance not enough");
         }
-
-        player.getTeam().setBalance(player.getTeam().getBalance() + allPrice);
+        Team previousTeam = player.getTeam();
+        previousTeam.setBalance(player.getTeam().getBalance() + allPrice);
         newTeam.setBalance(newTeam.getBalance() - allPrice);
         player.setTeam(newTeam);
         teamService.update(teamService.map(newTeam));
-
+        teamService.update(teamService.map(previousTeam));
         update(map(player));
         log.info("Success!");
-
-
     }
 
 
@@ -137,17 +118,13 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public PlayerDTO map(Player player) {
         return new PlayerDTO(player);
-
-
     }
 
-    public List<PlayerDTO> getByTeam(Team team) {
-        List<Player> lists = playerRepository.getByTeam(team);
-
+    public List<PlayerDTO> findByTeam(TeamDTO teamDTO) {
+        List<Player> lists = playerRepository.findByTeam(teamService.map(teamDTO));
         return lists.stream().map(this::map).collect(Collectors.toList());
     }
 }
-
 
 
 

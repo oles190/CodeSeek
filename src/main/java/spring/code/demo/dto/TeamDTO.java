@@ -4,8 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import spring.code.demo.model.Team;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+
 
 @Data
 @NoArgsConstructor
@@ -32,4 +31,6 @@ public class TeamDTO {
         this.country = team.getCountry();
         this.commission = team.getCommission();
     }
+
+
 }

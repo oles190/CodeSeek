@@ -22,25 +22,25 @@ public class TeamRestController {
 
     @GetMapping("/all")
     public List<TeamDTO> findAll() {
-        return teamService.getAll();
+        return teamService.findAll();
     }
 
     @GetMapping("/{id}")
     public TeamDTO findById(@PathVariable() Long id) {
-        return teamService.map(teamService.findById(id));
+        return teamService.findById(id);
     }
 
 
     @PostMapping()
     public TeamDTO create(@RequestBody() TeamDTO teamDTO) {
 
-        return teamService.map(teamService.create(teamDTO));
+        return teamService.create(teamDTO);
     }
 
 
     @PutMapping()
     public TeamDTO update(@RequestBody() TeamDTO teamDTO) {
-        return teamService.map(teamService.update(teamDTO));
+        return teamService.update(teamDTO);
     }
 
 
@@ -54,7 +54,6 @@ public class TeamRestController {
 
 
 }
-
 
 
 

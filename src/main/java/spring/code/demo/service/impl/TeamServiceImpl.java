@@ -2,6 +2,7 @@ package spring.code.demo.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import spring.code.demo.dto.TeamDTO;
 import spring.code.demo.exception.team.TeamNotFoundException;
 import spring.code.demo.model.Team;
@@ -27,50 +28,43 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Team create(TeamDTO teamDTO) {
+    public TeamDTO create(TeamDTO teamDTO) {
         Team team = map(teamDTO);
         for (TeamCreateValidator createValidator : teamCreateValidators) {
             createValidator.validate(team);
         }
-        return teamRepository.save(team);
-
+        teamRepository.save(team);
+        return map(team);
     }
 
     @Override
-    public Team update(TeamDTO teamDTO) {
-
-        if (teamDTO.getId() == null) {
-            throw new IllegalArgumentException("Id can't be null!");
-        }
+    public TeamDTO update(TeamDTO teamDTO) {
+        findById(teamDTO.getId());
         return create(teamDTO);
     }
 
 
     @Override
-    public Team findById(long id) {
+    public TeamDTO findById(long id) {
         Optional<Team> team = teamRepository.findById(id);
         if (team.isPresent()) {
-            return team.get();
+            return map(team.get());
         }
         throw new TeamNotFoundException("Team with id " + id + " not found!");
-
     }
 
     @Override
+    @Transactional(rollbackFor = TeamNotFoundException.class)
     public void delete(Long id) {
-        Team team = findById(id);
-        if (team == null) {
+        TeamDTO teamDTO = findById(id);
+        if (teamDTO == null) {
             throw new TeamNotFoundException("Team not found");
-
         }
-        teamRepository.delete(team);
-
-
+        teamRepository.deleteById(id);
     }
 
     @Override
-    public List<TeamDTO> getAll() {
-
+    public List<TeamDTO> findAll() {
         List<Team> lists = teamRepository.findAll();
         return lists.stream().map(this::map).collect(Collectors.toList());
     }
@@ -84,7 +78,6 @@ public class TeamServiceImpl implements TeamService {
         team.setCountry(teamDTO.getCountry());
         team.setId(teamDTO.getId());
         team.setName(teamDTO.getName());
-
         return team;
     }
 
