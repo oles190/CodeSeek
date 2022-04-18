@@ -80,6 +80,7 @@ class TeamServiceImplTest {
         List<TeamDTO> findAll = teamService.findAll();
         Assertions.assertEquals(teamDTOS, findAll);
         Assertions.assertEquals(2, findAll.size());
+
     }
 
     public List<TeamDTO> listTeam() {
