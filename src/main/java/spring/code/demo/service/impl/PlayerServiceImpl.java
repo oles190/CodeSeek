@@ -47,7 +47,7 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public PlayerDTO update(PlayerDTO playerDTO) {
-       findById(playerDTO.getId());
+        findById(playerDTO.getId());
         return create(playerDTO);
     }
 
@@ -57,7 +57,8 @@ public class PlayerServiceImpl implements PlayerService {
         if (player.isPresent()) {
             return map(player.get());
         }
-        throw new PlayerNotFoundException("Player with id " + id + " not found!");
+        throw new PlayerNotFoundException(String.format("Player with id %d not found",id));
+
     }
 
     @Override

@@ -20,8 +20,17 @@ public class TeamDTO {
 
     private String country;
 
-
     private int commission;
+
+    public TeamDTO(Long id, String name, Long balance, String city, String country, int commission) {
+        this.id = id;
+        this.name = name;
+        this.balance = balance;
+        this.city = city;
+        this.country = country;
+        this.commission = commission;
+    }
+
 
     public TeamDTO(Team team) {
         this.id = team.getId();

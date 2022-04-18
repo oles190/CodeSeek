@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class TeamServiceImpl implements TeamService {
 
+
     private final TeamRepository teamRepository;
     private final List<TeamCreateValidator> teamCreateValidators;
 
@@ -60,7 +61,7 @@ public class TeamServiceImpl implements TeamService {
         if (teamDTO == null) {
             throw new TeamNotFoundException("Team not found");
         }
-        teamRepository.deleteById(id);
+           teamRepository.deleteById(id);
     }
 
     @Override
